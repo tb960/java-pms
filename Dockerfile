@@ -9,6 +9,8 @@ COPY pom.xml .
 
 # Download dependencies and verify build
 # Using -q for quiet mode, -B for batch mode, -DskipTests to skip tests during dependency download
+# need to try if this work to build the docker image
+# test if tb960 is correct
 RUN mvn clean install -q -B -DskipTests -Dmaven.test.skip=true || \
     mvn clean install -B -DskipTests -Dmaven.test.skip=true
 
