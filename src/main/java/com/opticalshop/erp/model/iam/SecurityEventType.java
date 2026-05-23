@@ -1,0 +1,19 @@
+package com.opticalshop.erp.model.iam;
+
+public enum SecurityEventType {
+    LOGIN_SUCCESS,
+    LOGIN_FAILED,
+    LOGOUT,
+    MFA_CHALLENGE,
+    MFA_VERIFIED,
+    PASSWORD_CHANGED,
+    PASSWORD_RESET,
+    ROLE_ASSIGNED,
+    ROLE_REVOKED,
+    TOKEN_REVOKED,
+    USER_CREATED,
+    USER_LOCKED,
+    USER_UNLOCKED,
+    PERMISSION_DENIED,
+    UNAUTHORIZED_ACCESS
+}

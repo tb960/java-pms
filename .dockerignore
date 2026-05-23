@@ -1,0 +1,57 @@
+# Files and directories to exclude from Docker build context
+.git
+.gitignore
+.gitattributes
+.github
+.gitlab-ci.yml
+.dockerignore
+.env
+.env.local
+.env.*.local
+
+# Build artifacts
+target/
+build/
+dist/
+*.jar
+*.war
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+*.iml
+*.iws
+*.ipr
+.DS_Store
+
+# Maven
+.m2/
+
+# Node (if using frontend build tools)
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Logs
+logs/
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Documentation
+README.md
+CONTRIBUTING.md
+docs/
+
+# Tests (optional - include if you want tests in Docker)
+# src/test/
+
+# Docker files themselves
+docker/
+docker-compose*.yml
+Dockerfile

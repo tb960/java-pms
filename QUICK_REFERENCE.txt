@@ -1,0 +1,215 @@
+╔════════════════════════════════════════════════════════════╗
+║  OPTICAL SHOP ERP - DOCKER QUICK REFERENCE CARD            ║
+╚════════════════════════════════════════════════════════════╝
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ 🚀 QUICK START (First Time)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  1. Install Docker Desktop
+     → https://www.docker.com/products/docker-desktop
+
+  2. Run setup script
+     chmod +x quick-start-docker.sh
+     ./quick-start-docker.sh
+
+  3. Or use Make
+     make dev-up
+
+  4. Test it
+     make test
+     → Should see: {"status":"UP",...}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ 🎮 ESSENTIAL COMMANDS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  START                          │  STOP
+  ─────────────────────────────  │  ─────────────────────────────
+  make dev-up                    │  make down
+  docker-compose up -d           │  docker-compose down
+
+  LOGS                           │  TEST
+  ─────────────────────────────  │  ─────────────────────────────
+  make logs-tail                 │  make test
+  docker-compose logs -f         │  curl http://localhost:8080/api/health
+
+  REBUILD                        │  CLEAN
+  ─────────────────────────────  │  ─────────────────────────────
+  make rebuild                   │  make clean
+  docker-compose down             │  docker-compose down -v
+  docker-compose build --no-cache │  docker system prune -f
+  docker-compose up -d           │
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ 📍 ACCESSING THE APP
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  URL                 │  Description
+  ───────────────────────────────────────────────────────────
+  http://localhost:8080/api         │  API Base
+  http://localhost:8080/api/health  │  Health Check
+  http://localhost:8080/api/tenants │  Tenants Endpoint
+
+  EXAMPLE CURL COMMANDS:
+
+  # Test health
+  curl http://localhost:8080/api/health
+
+  # Create tenant
+  curl -X POST http://localhost:8080/api/tenants \
+    -H "Content-Type: application/json" \
+    -d '{"tenantCode":"SHOP_001","tenantName":"My Shop"}'
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ 🐳 WHAT'S INSIDE DOCKER
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Component          │  Version  │  Inside Container?
+  ─────────────────────────────────────────────────────
+  Java (JDK)         │  17       │  ✅ Yes
+  Maven              │  3.9.4    │  ✅ Yes (build only)
+  Spring Boot        │  3.2.0    │  ✅ Yes
+  H2 Database        │  Latest   │  ✅ Yes (in-memory)
+  Your App           │  1.0.0    │  ✅ Yes
+
+  NOT on your Mac:
+  ❌ Java globally
+  ❌ Maven globally
+  ❌ MySQL locally
+  ❌ Any other tools
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ 📂 KEY FILES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  File                           │  Purpose
+  ──────────────────────────────────────────────────────
+  Dockerfile                     │  Container build instructions
+  docker-compose.yml             │  Services configuration
+  .dockerignore                  │  Build optimization
+  Makefile                       │  Convenient commands
+  quick-start-docker.sh          │  Automated setup
+  DOCKER.md                      │  Complete guide
+  DOCKER_ARCHITECTURE.md         │  Visual explanation
+  GETTING_STARTED.md             │  Decision guide
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ ⚙️  ALL MAKEFILE COMMANDS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  make help                → Show this help
+  make build               → Build Docker image
+  make up                  → Start containers
+  make down                → Stop containers
+  make restart             → Restart containers
+  make logs                → View app logs
+  make logs-tail           → Follow logs (-f)
+  make logs-mysql          → View MySQL logs
+  make clean               → Remove containers & volumes
+  make shell               → Access container bash
+  make test                → Test /api/health endpoint
+  make test-create-tenant  → Create test tenant
+  make status              → Show container status
+  make dev-up              → Build + start (recommended)
+  make rebuild             → Clean rebuild
+  make stats               → Show Docker resource usage
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ 🔧 TROUBLESHOOTING
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Problem                │  Solution
+  ──────────────────────────────────────────────────────
+  Docker not found       │  Install Docker Desktop
+  Port 8080 in use       │  make down OR change port
+  App won't start        │  make logs-tail (check error)
+  Need to rebuild        │  make rebuild
+  Want to see all logs   │  docker-compose logs
+  Need shell access      │  make shell
+  Check resources        │  make stats
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ 📚 DOCUMENTATION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  File                        │  Read When...
+  ──────────────────────────────────────────────────────
+  DOCKER.md                   │  Need complete guide
+  DOCKER_ARCHITECTURE.md      │  Want to understand how Docker works
+  GETTING_STARTED.md          │  Deciding Docker vs Local
+  README.md                   │  General project info
+  This card                   │  Quick reference
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ 💡 PRO TIPS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ▸ Add to ~/.zshrc for quick aliases:
+    alias deu='make dev-up'
+    alias dlog='make logs-tail'
+    alias dtest='make test'
+
+  ▸ Watch logs while working:
+    make logs-tail
+
+  ▸ Check health quickly:
+    make test
+
+  ▸ Full clean rebuild:
+    make clean && make dev-up
+
+  ▸ Run multiple projects:
+    Different ports: 8080, 8081, 8082, etc.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ 🎯 TYPICAL WORKFLOW
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  1. Start (first time)
+     ./quick-start-docker.sh
+
+  2. View logs (verify it's working)
+     make logs-tail
+
+  3. Test endpoint
+     make test
+
+  4. Make code changes in VSCode
+     (Changes saved to Mac)
+
+  5. Rebuild
+     make rebuild
+
+  6. Test changes
+     make test
+
+  7. View logs
+     make logs-tail
+
+  8. Done for the day
+     make down
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ ✅ READY TO START?
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Choose one:
+
+  👍 Easiest (automated):
+     ./quick-start-docker.sh
+
+  👍 Standard (using Make):
+     make dev-up
+
+  👍 Manual (full control):
+     docker-compose build
+     docker-compose up -d
+
+  ✨ All three do the same thing!
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Questions? Check DOCKER.md or run: make help
+
+Good luck! 🚀
